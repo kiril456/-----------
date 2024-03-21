@@ -1,0 +1,26 @@
+{
+    "1": {
+        "src": "app/songs/music/music1.mp3",
+        "name": "Costa Rica (feat. The Kid LAROI)",
+        "image": "app/songs/images/image1.jpg",
+        "author": "Bankrol Hayden",
+        "feat": "The Kid LAROI",
+        "play": true
+    },
+    "2": {
+        "src": "app/songs/music/music2.mp3",
+        "name": "WTF 2",
+        "image": "app/songs/images/image2.jpg",
+        "author": "Ugovhb",
+        "feat": "EV",
+        "play": false
+    },
+    "3": {
+        "src": "app/songs/music/music1.mp3",
+        "name": "Costa Rica (feat. The Kid LAROI)",
+        "image": "app/songs/images/image1.jpg",
+        "author": "Bankrol Hayden",
+        "feat": "The Kid LAROI",
+        "play": false
+    }
+}
