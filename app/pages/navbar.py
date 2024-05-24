@@ -73,7 +73,6 @@ class Navbar(ft.UserControl):
                 ),
                 
             ], spacing=10),
-            # padding=ft.padding.all(7),
             margin=ft.margin.all(0),
             bgcolor="black",
             border_radius=10,

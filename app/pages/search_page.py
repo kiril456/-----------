@@ -1,6 +1,5 @@
 import flet as ft
 import json
-from app.pages.player import Player
 
 class SearchPage(ft.UserControl):
     def __init__(self, page):
@@ -81,14 +80,14 @@ class SearchPage(ft.UserControl):
                                         height=160,
                                     )
                                 ],
-                                alignment="center",
-                                vertical_alignment="center"
+                                alignment="top",
+                                vertical_alignment="top"
                             ),
                             ft.Text(value=v['name'], weight=ft.FontWeight.BOLD, size=15),
                             
                             ft.Text(value=f"{v['author']}, {v['feat']}", size=12)
                         ],
-                        alignment="center",
+                        alignment="top",
                         horizontal_alignment="center",
                         expand=True
                         
@@ -99,10 +98,9 @@ class SearchPage(ft.UserControl):
                     padding=20,
                     border_radius=10,
                     data=k,
-                    on_click=self.play_song
+                    # on_click=self.play_song
                 )
-            )
-            
+            )  
     
     def get_songs_data(self):
         with open("app\songs\songsinfo.json", "r") as json_file:
@@ -110,26 +108,5 @@ class SearchPage(ft.UserControl):
             
             return data
         
-        
     def play_song(self, e):
-        # index = int(e.control.data) - 1
-        # last_id = ""
-        
-        # with open("app\songs\songsinfo.json", "r+") as file:
-        #     data = json.load(file)
-            
-        #     for k in data.keys():
-        #         if data[k]['play'] == True:
-        #             data[k]['play'] = False
-        #             break
-            
-        #     data[str(e.control.data)]['play'] = True  
-
-        #     file.seek(0)
-        #     json.dump(data, file, indent=4)
-        #     file.truncate()
-        
-        self.page.views[0].controls[1].controls[0].play_track(e)
-        
-        self.page.update()
-        
+        self.page.views[0].controls[1].controls[0].play_card(e)

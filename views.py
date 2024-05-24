@@ -4,7 +4,7 @@ from app.pages.navbar import Navbar
 from app.pages.search_page import SearchPage
 
 
-def views_handler(page):
+def views_handler(page, player):
     return {
         "/": ft.View(
             route="/",
@@ -52,6 +52,7 @@ def views_handler(page):
                 ft.Row(
                     [
                         Player(page)
+                        # player
                     ],
                 )
             ],
