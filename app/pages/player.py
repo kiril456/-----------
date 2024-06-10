@@ -1,6 +1,6 @@
 import flet as ft
 from tinytag import TinyTag
-import json
+from app.function import get_songs_data
 
 class Player(ft.UserControl):
     def __init__(self, page):
@@ -12,6 +12,7 @@ class Player(ft.UserControl):
         self.is_playing = False
         self.sequence_tracks = []
         self.count = 1
+        self.current_position = 0
         
     def build(self): 
         self.create_tracks()
@@ -29,8 +30,9 @@ class Player(ft.UserControl):
         )
         
         self.slider = ft.Slider(
-            width=500,
+            expand=True,
             value=0,
+            active_color="green",
             on_change=self.change_position_track,
         )
         
@@ -43,6 +45,7 @@ class Player(ft.UserControl):
             divisions=100,
             value=50,
             label="{value}",
+            active_color="green",
             on_change=self.volume_change
         )
         
@@ -60,6 +63,22 @@ class Player(ft.UserControl):
             on_click=self.previous_track,
         )
         
+        self.minus_15_btn = ft.IconButton(
+            icon=ft.icons.ROTATE_LEFT_ROUNDED,
+            icon_size=25,
+            icon_color="white",
+            on_click=self.minus_15_second,
+            tooltip="-15"
+        ) 
+        
+        self.plus_15_btn = ft.IconButton(
+            icon=ft.icons.ROTATE_RIGHT_ROUNDED,
+            icon_size=25,
+            icon_color="white",
+            on_click=self.plus_15_second,
+            tooltip="+15"
+        ) 
+        
         self.play_btn = ft.IconButton(
             icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED,
             icon_size=45, 
@@ -73,7 +92,7 @@ class Player(ft.UserControl):
             height=100,
             bgcolor="black",
             expand=True,
-            # padding=ft.padding.only(left=10),
+            padding=ft.padding.only(left=10, right=10),
             content=ft.Row(
                 expand=1,
                 controls=[
@@ -88,7 +107,6 @@ class Player(ft.UserControl):
                                     spacing=0)
                                 ],
                                 scroll=ft.ScrollMode.ADAPTIVE,
-                                # width=200
                             ),
                         ],
                         alignment=ft.MainAxisAlignment.CENTER,
@@ -98,9 +116,11 @@ class Player(ft.UserControl):
                         controls=[
                             ft.Row(
                                 [
+                                    self.minus_15_btn,
                                     self.previous_track_btn,
                                     self.play_btn,
                                     self.next_track_btn,
+                                    self.plus_15_btn
                                 ],
                                 alignment="center",     
                             ),
@@ -131,7 +151,6 @@ class Player(ft.UserControl):
                         alignment=ft.MainAxisAlignment.CENTER
                     )
                 ],
-                # alignment=ft.MainAxisAlignment.CENTER,
                 vertical_alignment="center",
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 spacing=10
@@ -172,7 +191,8 @@ class Player(ft.UserControl):
     
     def previous_track(self, e):
         if len(self.sequence_tracks) > 1:
-            self.page.overlay[self.index].pause()
+            print(int(self.index))
+            self.page.overlay[int(self.index)].pause()
             tmp = self.sequence_tracks.copy()
             tmp.reverse()
             self.index = tmp[self.count]
@@ -183,8 +203,27 @@ class Player(ft.UserControl):
         self.page.update()    
     
     def add_to_sequence(self, index):
+        if index in self.sequence_tracks:
+            self.sequence_tracks.remove(index)
+            
         self.sequence_tracks.append(index)
-    
+        
+        tracks = []
+        with open('app/pages/recently_track.txt', 'r', encoding='utf-8') as file:
+            tracks = file.readlines()
+            
+        tracks = [line.strip() for line in tracks]
+        
+        if str(index) in tracks:
+            tracks.remove(str(index))
+        
+        tracks.append(str(index))
+        with open('app/pages/recently_track.txt', 'w', encoding='utf-8') as file:
+            for line in tracks:
+                file.write(line + '\n')
+
+        self.update()
+      
     def change_track_time(self, index):
         audio = TinyTag.get(self.page.overlay[index].src)
         self.current_time.value = "0:0"
@@ -194,6 +233,7 @@ class Player(ft.UserControl):
     def new_track(self):
         self.change_track_time(self.index)
         self.load_info(self.index)
+        self.page.views[0].controls[0].controls[2].insert_data()
         if self.state == "playing":
             self.page.overlay[self.index].play()
             
@@ -210,8 +250,6 @@ class Player(ft.UserControl):
         self.change_track_time(id)
         self.load_info(id)
         
-        # print(self.page.views[0].controls)
-        
         self.is_playing = True
         self.state = "playing"
         self.index = id
@@ -220,6 +258,7 @@ class Player(ft.UserControl):
     def progress_change(self, e):
         audio = TinyTag.get(self.page.overlay[self.index].src)
         self.current_time.value = self.converter_time(e.data)
+        self.current_position = e.data
         self.slider.value = (float(e.data) * 1.0) / float(audio.duration * 1000)
         self.update()
 
@@ -235,7 +274,7 @@ class Player(ft.UserControl):
 
     def create_tracks(self):
         self.page.overlay.clear()
-        songs = self.get_songs_data()
+        songs = get_songs_data()
         for k in songs:
             audio = ft.Audio(
                 src=songs[k]['src'],
@@ -249,7 +288,7 @@ class Player(ft.UserControl):
             self.page.overlay.append(audio)
 
     def load_info(self, index):
-        data = self.get_songs_data()
+        data = get_songs_data()
         self.image.src = data[str(index + 1)]['image']
         self.name.value = data[str(index + 1)]['name']
         self.author.value = f"{data[str(index + 1)]['author']}, {data[str(index + 1)]['feat']}"
@@ -287,8 +326,14 @@ class Player(ft.UserControl):
         if seconds < 10:
             return f"{minutes}:0{seconds}"
         return f"{minutes}:{seconds}"
-    
-    def get_songs_data(self):
-        with open("app\songs\songsinfo.json", "r") as json_file:
-            data = json.load(json_file)
-            return data
+
+    def plus_15_second(self, e):
+        if self.is_playing:
+            new_position = int(self.current_position) + 15000
+            self.page.overlay[self.index].seek(new_position)
+        
+    def minus_15_second(self, e):
+        if int(self.current_position) >= 15000:
+            new_position = int(self.current_position) - 15000
+            self.page.overlay[self.index].seek(new_position)
+            

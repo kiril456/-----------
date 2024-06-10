@@ -26,5 +26,33 @@
         "image": "app/songs/images/image4.jpg",
         "author": "Richard Carters",
         "feat": ""
+    },
+    "5": {
+        "src": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\music\\music5.mp3",
+        "name": "Hate Me",
+        "image": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\images\\image5.jpg",
+        "author": "Ellie Goulding",
+        "feat": "Juice WRLD"
+    },
+    "6": {
+        "src": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\music\\music6.mp3",
+        "name": "Houdini",
+        "image": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\images\\image6.jpg",
+        "author": "Eminem",
+        "feat": ""
+    },
+    "7": {
+        "src": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\music\\music7.mp3",
+        "name": "Revenge",
+        "image": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\images\\image7.jpg",
+        "author": "XXXTENTACION",
+        "feat": ""
+    },
+    "8": {
+        "src": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\music\\music8.mp3",
+        "name": "Drowning",
+        "image": "D:\\VNTU\\2 \u041a\u0443\u0440\u0441\\2 \u0441\u0435\u043c\u0435\u0441\u0442\u0435\u0440\\\u041a\u0443\u0440\u0441\u043e\u0432\u0430 \u041e\u041e\u041f\\app\\songs\\images\\image8.jpg",
+        "author": "A Boogie Wit da Hoodie",
+        "feat": "Kodak Black"
     }
 }

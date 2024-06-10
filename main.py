@@ -1,6 +1,10 @@
 import flet as ft
 from views import views_handler
-from app.pages.player import Player
+from app.pages.home_page import HomePage
+from app.pages.search_page import SearchPage
+from app.pages.add_track_page import AddTrack
+from app.pages.create_playlist_page import CreatePlaylistPage
+from app.pages.playlist_page import PlaylistPage
 
 class App(ft.UserControl):
     def __init__(self, page: ft.Page):
@@ -13,8 +17,7 @@ class App(ft.UserControl):
         page.window_width = 800
         page.window_height = 800
         
-        self.page = page
-        self.player = Player(page)
+        self.page = page 
         
         self.init_helper()
         
@@ -25,10 +28,29 @@ class App(ft.UserControl):
         
         
     def route_change(self, route):
-        self.page.views.clear()
-        self.page.views.append(views_handler(self.page, self.player)[self.page.route])
+        home_page = HomePage(self.page)
+        search_page = SearchPage(self.page)
+        add_page = AddTrack(self.page)
+        create_playlist_page = CreatePlaylistPage(self.page)
+        playlist = PlaylistPage(self.page)
+
+        if not self.page.views[0].controls:
+            self.page.views.clear()
+            self.page.views.append(views_handler(self.page)["/search"])
+            
+        match self.page.route:
+            case "/search":
+                self.page.views[0].controls[0].controls[1] = search_page
+            case "/":
+                self.page.views[0].controls[0].controls[1] = home_page
+            case "/add_track":
+                self.page.views[0].controls[0].controls[1] = add_page
+            case "/create_playlist":
+                self.page.views[0].controls[0].controls[1] = create_playlist_page
+            case "/playlist":
+                self.page.views[0].controls[0].controls[1] = playlist
+                
         self.page.update()
-        
         
 if __name__ == "__main__":
     ft.app(target=App)

@@ -1,33 +1,35 @@
 import flet as ft
 
-# Define the main function
-async def main(page: ft.Page):
-    # Create an audio object
-    audio = ft.Audio(
-        src="app\songs\music\music1.mp3",
-        autoplay=False,
-        volume=1,
-        balance=0
+
+def main(page):
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+
+    page.add(
+        ft.CupertinoContextMenu(
+            enable_haptic_feedback=True,
+            content=ft.Image("https://picsum.photos/200/200"),
+            actions=[
+                ft.CupertinoContextMenuAction(
+                    text="Action 1",
+                    is_default_action=True,
+                    trailing_icon=ft.icons.CHECK,
+                    on_click=lambda e: print("Action 1"),
+                ),
+                ft.CupertinoContextMenuAction(
+                    text="Action 2",
+                    trailing_icon=ft.icons.MORE,
+                    on_click=lambda e: print("Action 2"),
+                ),
+                ft.CupertinoContextMenuAction(
+                    text="Action 3",
+                    is_destructive_action=True,
+                    trailing_icon=ft.icons.CANCEL,
+                    on_click=lambda e: print("Action 3"),
+                ),
+            ],
+        )
     )
 
-    # Function to handle slider changes
-    def slider_changed(e):
-        # Calculate the new position based on the slider value
-        new_position = int(e.control.value * audio.duration)
-        # Set the new position of the audio track
-        audio.position = new_position
-        # Update the page
-        page.update()
 
-    # Add a text label
-    page.add(ft.Text("Audio Player"))
-
-    # Add the audio player and slider
-    page.add(audio)
-    page.add(ft.Slider(min=0, max=1, on_change=slider_changed))
-
-    # Update the page
-    await page.update_async()
-
-# Run the Flet app
 ft.app(target=main)
